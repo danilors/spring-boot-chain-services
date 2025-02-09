@@ -1,0 +1,25 @@
+server:
+  port: 12400
+
+spring:
+  application:
+    name: workflow
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: basic
+          profileClient:
+            url: http://localhost:33501/api/profiles
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
+            errorDecoder: br.com.chain.workflow.clients.Custom5xxErrorDecoder
+      circuitbreaker:
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
+
