@@ -1,8 +1,7 @@
-package br.com.chain.workflow;
+package br.com.chain.workflow.service;
 
 import br.com.chain.workflow.clients.ProfileClient;
 import br.com.chain.workflow.model.Profile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

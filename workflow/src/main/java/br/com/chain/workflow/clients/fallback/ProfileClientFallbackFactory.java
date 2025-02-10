@@ -1,5 +1,6 @@
-package br.com.chain.workflow.clients;
+package br.com.chain.workflow.clients.fallback;
 
+import br.com.chain.workflow.clients.ProfileClient;
 import br.com.chain.workflow.model.Profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +20,8 @@ public class ProfileClientFallbackFactory implements FallbackFactory<ProfileClie
         return new ProfileClient() {
             @Override
             public List<Profile> getAllProfiles() {
-                logger.info("return default value from callback");
-                return List.of();
+                logger.info("response -> default Profile value from callback");
+                return List.of(new Profile(-1L, "default", "default"));
             }
         };
     }
