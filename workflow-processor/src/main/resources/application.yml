@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: workflow-processor
+
+server:
+  port: 15350
