@@ -1,16 +1,18 @@
 package br.com.chain.profile;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/profiles")
 public class ProfileController {
 
     private final ProfileService profileService;
-    private int counter = 0;
+    
 
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
@@ -18,17 +20,18 @@ public class ProfileController {
 
     @GetMapping
     public List<Profile> getAllProfiles() {
-        if(this.counter < 2) {
-            this.counter++;
-            throw new IllegalStateException("error");
-        }
-        counter = 0;
-        return profileService.getAllProfiles();
+       return profileService.getAllProfiles();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProfileById(@PathVariable Long id) {
+          try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                log.error(e.getMessage());
+            }
         var result = profileService.getProfileById(id);
+        
         if (result == null) {
             return ResponseEntity.notFound().build();
         }

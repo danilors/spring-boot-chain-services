@@ -1,10 +1,12 @@
 package br.com.chain.address;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/address")
 public class AddressController {
@@ -36,6 +38,11 @@ public class AddressController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody Address address) {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
 
         var result = addressService.updateAddress(id, address);
         if (result == null) {

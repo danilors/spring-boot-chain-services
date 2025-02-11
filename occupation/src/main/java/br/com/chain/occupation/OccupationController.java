@@ -1,10 +1,13 @@
 package br.com.chain.occupation;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/api/occupations")
 public class OccupationController {
@@ -22,6 +25,11 @@ public class OccupationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOccupationById(@PathVariable Long id) {
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
         var result = occupationService.getOccupationById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
