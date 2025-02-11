@@ -12,7 +12,6 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "profiles")
-
 public class Profile {
 
     @Id
