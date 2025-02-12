@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class AddressService implements  CommonService {
+public class AddressService extends CustomDisposable implements CommonService {
 
     private final AddressClient addressClient;
 
@@ -23,10 +23,13 @@ public class AddressService implements  CommonService {
 
     @Override
     public void listenToCentralDataChanges(CentralData centralData) {
-        centralData.listenerChange().subscribe(cd -> {
-            if (cd.getProfile() != null && cd.getAddress() == null) { // Check if address data is already present
-                getAddress()
-                        .subscribe(cd::setAddress);
+        log.info("register listener changes for Address Service");
+        centralData.listenerChange().log().subscribe(cd -> {
+            if (cd.hasNotAddress()) {
+                disposableService = getAddress().log().subscribe(cd::setAddress);
+            } else {
+                log.info("calling dispose {}", AddressService.class.getSimpleName());
+                dispose();
             }
         });
     }

@@ -1,13 +1,11 @@
 package br.com.chain.workflow_processor.service;
 
 import br.com.chain.workflow_processor.model.CentralData;
-import br.com.chain.workflow_processor.model.Occupation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,11 +25,11 @@ public class CentralService {
         services.forEach(service -> service.listenToCentralDataChanges(centralData));
     }
 
-
     public Mono<CentralData> start() {
         CentralData centralData = new CentralData();
         registrerServices(centralData);
         return profileService.getProfile()
+                .log()
                 .flatMap(profileData -> {
                     centralData.setProfile(profileData);
                     return centralData.listenerChange()

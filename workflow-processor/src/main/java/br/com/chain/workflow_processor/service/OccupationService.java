@@ -9,9 +9,10 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class OccupationService implements CommonService {
+public class OccupationService extends CustomDisposable implements CommonService {
 
     private final OccupationClient occupationClient;
+
 
     public OccupationService(OccupationClient occupationClient) {
         this.occupationClient = occupationClient;
@@ -23,10 +24,13 @@ public class OccupationService implements CommonService {
 
     @Override
     public void listenToCentralDataChanges(CentralData centralData) {
-        centralData.listenerChange().subscribe(cd -> {
-            if (cd.getProfile() != null && cd.getOccupation() == null) {
-                getOccupation()
-                        .subscribe(cd::setOccupation);
+        log.info("register listener changes for Occpation Service");
+        centralData.listenerChange().log().subscribe(cd -> {
+            if (cd.hasNotOccupation()) {
+                disposableService = getOccupation().subscribe(cd::setOccupation);
+            } else {
+                log.info("calling dispose {}", OccupationService.class.getSimpleName());
+                this.dispose();
             }
         });
     }

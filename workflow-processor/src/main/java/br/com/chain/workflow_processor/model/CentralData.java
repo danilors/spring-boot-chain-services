@@ -6,8 +6,6 @@ import lombok.Getter;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
-import java.util.Optional;
-
 @Getter
 public class CentralData {
 
@@ -35,6 +33,14 @@ public class CentralData {
 
     public Flux<CentralData> listenerChange() {
         return changeSink.asFlux();
+    }
+
+    public boolean hasNotOccupation() {
+        return this.getProfile() != null && this.getOccupation() == null;
+    }
+
+    public boolean hasNotAddress() {
+        return this.getProfile() != null && this.getAddress() == null;
     }
 
     public boolean isCompleted() {
