@@ -21,15 +21,21 @@ public class CentralService {
 
     }
 
-    private void registrerServices(CentralData centralData) {
+    private void registerCommonServices(CentralData centralData) {
         services.forEach(service -> service.listenToCentralDataChanges(centralData));
     }
 
     public Mono<CentralData> start() {
         CentralData centralData = new CentralData();
-        registrerServices(centralData);
-        return profileService.getProfile()
-                .log()
+
+        return Mono.defer(() -> {
+                    registerCommonServices(centralData);
+                    return Mono.empty();
+                }).then(profileService.getProfile())
+                .onErrorResume(error -> {
+                    log.error("Error trying to get profile info: ", error);
+                    return Mono.empty();
+                })
                 .flatMap(profileData -> {
                     centralData.setProfile(profileData);
                     return centralData.listenerChange()
@@ -37,4 +43,5 @@ public class CentralService {
                             .next();
                 });
     }
+
 }
