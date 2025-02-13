@@ -26,7 +26,7 @@ public class OccupationController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOccupationById(@PathVariable Long id) {
         try {
-            Thread.sleep(4000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }

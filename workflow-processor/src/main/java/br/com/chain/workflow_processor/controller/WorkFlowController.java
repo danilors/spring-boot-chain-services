@@ -1,9 +1,6 @@
 package br.com.chain.workflow_processor.controller;
 
-import br.com.chain.workflow_processor.model.Address;
-import br.com.chain.workflow_processor.model.CentralData;
-import br.com.chain.workflow_processor.model.Occupation;
-import br.com.chain.workflow_processor.model.Profile;
+import br.com.chain.workflow_processor.model.*;
 import br.com.chain.workflow_processor.service.CentralService;
 import br.com.chain.workflow_processor.service.WorkflowService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,10 +43,14 @@ public class WorkFlowController {
         return workflowService.getOccupation();
     }
 
-    @GetMapping("/central")
+    @GetMapping("/listeners")
     public Mono<CentralData> start() {
         return centralService.start();
     }
 
+    @GetMapping("/parallel")
+    public Mono<CommonData> getAll() {
+        return centralService.getParallelData();
+    }
 
 }

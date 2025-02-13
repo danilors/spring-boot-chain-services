@@ -1,4 +1,4 @@
-package br.com.chain.workflow_processor.service;
+package br.com.chain.workflow_processor.service.listener;
 
 import br.com.chain.workflow_processor.client.AddressClient;
 import br.com.chain.workflow_processor.model.Address;
@@ -9,11 +9,11 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class AddressService extends CustomDisposable implements CommonService {
+public class AddressServiceImpl extends AbstractCustomDisposable implements ListenerService {
 
     private final AddressClient addressClient;
 
-    public AddressService(AddressClient addressClient) {
+    public AddressServiceImpl(AddressClient addressClient) {
         this.addressClient = addressClient;
     }
 
@@ -28,7 +28,7 @@ public class AddressService extends CustomDisposable implements CommonService {
             if (cd.hasNotAddress()) {
                 disposableService = getAddress().log().subscribe(cd::setAddress);
             } else {
-                log.info("calling dispose {}", AddressService.class.getSimpleName());
+                log.info("calling dispose {}", AddressServiceImpl.class.getSimpleName());
                 dispose();
             }
         });

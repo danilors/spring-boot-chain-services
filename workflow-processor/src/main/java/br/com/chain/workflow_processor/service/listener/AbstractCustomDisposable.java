@@ -1,8 +1,8 @@
-package br.com.chain.workflow_processor.service;
+package br.com.chain.workflow_processor.service.listener;
 
 import reactor.core.Disposable;
 
-public abstract class CustomDisposable {
+public abstract class AbstractCustomDisposable {
 
     protected Disposable disposableService;
     protected Disposable disposableListener;

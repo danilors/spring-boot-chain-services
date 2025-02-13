@@ -1,4 +1,4 @@
-package br.com.chain.workflow_processor.service;
+package br.com.chain.workflow_processor.service.listener;
 
 import br.com.chain.workflow_processor.client.OccupationClient;
 import br.com.chain.workflow_processor.model.CentralData;
@@ -9,12 +9,12 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class OccupationService extends CustomDisposable implements CommonService {
+public class OccupationServiceImpl extends AbstractCustomDisposable implements ListenerService {
 
     private final OccupationClient occupationClient;
 
 
-    public OccupationService(OccupationClient occupationClient) {
+    public OccupationServiceImpl(OccupationClient occupationClient) {
         this.occupationClient = occupationClient;
     }
 
@@ -29,7 +29,7 @@ public class OccupationService extends CustomDisposable implements CommonService
             if (cd.hasNotOccupation()) {
                 disposableService = getOccupation().subscribe(cd::setOccupation);
             } else {
-                log.info("calling dispose {}", OccupationService.class.getSimpleName());
+                log.info("calling dispose {}", OccupationServiceImpl.class.getSimpleName());
                 this.dispose();
             }
         });

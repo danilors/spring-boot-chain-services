@@ -39,7 +39,7 @@ public class AddressController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody Address address) {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }

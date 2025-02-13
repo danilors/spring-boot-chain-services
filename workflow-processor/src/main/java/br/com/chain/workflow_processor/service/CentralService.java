@@ -1,8 +1,11 @@
 package br.com.chain.workflow_processor.service;
 
-import br.com.chain.workflow_processor.model.CentralData;
+import br.com.chain.workflow_processor.model.*;
+import br.com.chain.workflow_processor.service.common.CommonService;
+import br.com.chain.workflow_processor.service.listener.ListenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -11,14 +14,16 @@ import java.util.List;
 @Service
 public class CentralService {
 
-    private final List<CommonService> services;
+    private final List<ListenerService> services;
 
     private final ProfileService profileService;
 
-    public CentralService(List<CommonService> services, ProfileService profileService) {
+    private final List<CommonService> commonServices;
+
+    public CentralService(List<ListenerService> services, ProfileService profileService, List<CommonService> commonServices) {
         this.services = services;
         this.profileService = profileService;
-
+        this.commonServices = commonServices;
     }
 
     private void registerCommonServices(CentralData centralData) {
@@ -44,4 +49,11 @@ public class CentralService {
                 });
     }
 
+    public Mono<CommonData> getParallelData() {
+        Mono<Profile> profile  = profileService.getProfile();
+        return Flux.fromIterable(commonServices)
+                .flatMap(CommonService::getData)
+                .collectList()
+                .map(CommonData::fromInformations);
+    }
 }

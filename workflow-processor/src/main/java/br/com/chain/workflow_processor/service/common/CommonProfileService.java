@@ -1,4 +1,4 @@
-package br.com.chain.workflow_processor.service;
+package br.com.chain.workflow_processor.service.common;
 
 import br.com.chain.workflow_processor.client.ProfileClient;
 import br.com.chain.workflow_processor.model.Profile;
@@ -8,16 +8,18 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class ProfileService {
+public class CommonProfileService  implements CommonService {
 
     private final ProfileClient profileClient;
 
-    public ProfileService(ProfileClient profileClient) {
+    public CommonProfileService(ProfileClient profileClient) {
         this.profileClient = profileClient;
     }
 
-    Mono<Profile> getProfile() {
+    @Override
+    public Mono<Profile> getData() {
         return profileClient.getProfiles();
     }
+
 
 }
