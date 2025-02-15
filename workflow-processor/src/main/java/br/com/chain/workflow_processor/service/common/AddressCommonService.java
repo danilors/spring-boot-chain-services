@@ -16,8 +16,8 @@ public class AddressCommonService implements CommonService {
         this.addressClient = addressClient;
     }
 
-    public Mono<Address> getData() {
-        return addressClient.getAddressData();
+    public Mono<Address> getData(Integer id) {
+        return addressClient.getAddressById(id);
     }
 
 

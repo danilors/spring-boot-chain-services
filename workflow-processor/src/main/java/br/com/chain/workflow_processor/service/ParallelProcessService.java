@@ -22,10 +22,10 @@ public class ParallelProcessService {
     }
 
 
-    public Mono<CommonData> getParallelData() {
-        return profileService.getProfile().flatMap(profileData -> {
+    public Mono<CommonData> getParallelData(Integer profileId) {
+        return profileService.getProfile(profileId).flatMap(profileData -> {
             return Flux.fromIterable(commonServices)
-                    .flatMap(CommonService::getData)
+                    .flatMap(service -> service.getData(profileId))
                     .collectList()
                     .map(CommonData::fromInformation);
         });

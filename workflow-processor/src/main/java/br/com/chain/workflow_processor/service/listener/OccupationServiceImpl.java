@@ -18,8 +18,8 @@ public class OccupationServiceImpl extends AbstractCustomDisposable implements L
         this.occupationClient = occupationClient;
     }
 
-    public Mono<Occupation> getOccupation() {
-        return occupationClient.getOccupationData();
+    public Mono<Occupation> getOccupation(Integer id) {
+        return occupationClient.getOccupationById(id);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class OccupationServiceImpl extends AbstractCustomDisposable implements L
         log.info("register listener changes for Occpation Service");
         centralData.listenerChange().log().subscribe(cd -> {
             if (cd.hasNotOccupation()) {
-                disposableService = getOccupation().subscribe(cd::setOccupation);
+                disposableService = getOccupation(centralData.getProfile().id()).subscribe(cd::setOccupation);
             } else {
                 log.info("calling dispose {}", OccupationServiceImpl.class.getSimpleName());
                 this.dispose();

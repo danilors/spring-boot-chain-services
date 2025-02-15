@@ -5,6 +5,7 @@ import br.com.chain.workflow_processor.service.ParallelProcessService;
 import br.com.chain.workflow_processor.service.WorkflowService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -48,9 +49,9 @@ public class WorkFlowController {
         return workflowService.start();
     }
 
-    @GetMapping("/parallel")
-    public Mono<CommonData> getAll() {
-        return parallelProcessService.getParallelData();
+    @GetMapping("/parallel/{profileId}")
+    public Mono<CommonData> getAll(@PathVariable String profileId) {
+        return parallelProcessService.getParallelData(Integer.parseInt(profileId));
     }
 
 }

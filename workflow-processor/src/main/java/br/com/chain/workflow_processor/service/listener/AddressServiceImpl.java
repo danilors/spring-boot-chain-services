@@ -18,7 +18,7 @@ public class AddressServiceImpl extends AbstractCustomDisposable implements List
     }
 
     public Mono<Address> getAddress() {
-        return addressClient.getAddressData();
+        return addressClient.getAddressById(1);
     }
 
     @Override

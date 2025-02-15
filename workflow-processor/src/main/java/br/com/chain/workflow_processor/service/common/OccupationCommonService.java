@@ -17,8 +17,8 @@ public class OccupationCommonService implements CommonService {
     }
 
     @Override
-    public Mono<Occupation> getData() {
-        return occupationClient.getOccupationData();
+    public Mono<Occupation> getData(Integer profileId) {
+        return occupationClient.getOccupationById(profileId);
     }
 
 

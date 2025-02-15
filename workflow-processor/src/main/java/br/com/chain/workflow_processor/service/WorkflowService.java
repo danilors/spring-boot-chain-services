@@ -40,11 +40,11 @@ public class WorkflowService {
     }
 
     public Mono<Profile> getProfile() {
-        return profileService.getProfile();
+        return profileService.getProfile(1);
     }
 
     public Mono<Occupation> getOccupation() {
-        return occupationService.getOccupation();
+        return occupationService.getOccupation(1);
     }
 
 
@@ -54,7 +54,7 @@ public class WorkflowService {
         return Mono.defer(() -> {
                     registerCommonServices(centralData);
                     return Mono.empty();
-                }).then(profileService.getProfile())
+                }).then(profileService.getProfile(1))
                 .onErrorResume(error -> {
                     log.error("Error trying to get profile info: ", error);
                     return Mono.empty();

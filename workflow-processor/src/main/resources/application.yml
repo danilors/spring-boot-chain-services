@@ -4,3 +4,25 @@ spring:
 
 server:
   port: 15350
+
+profiles:
+  api:
+    baseUrl: http://localhost:33501
+    path: /api/profiles/{id}
+    maxRetry: 3
+    maxRetryInterval: 500
+
+address:
+  api:
+    baseUrl: http://localhost:33502
+    path: /api/address/{id}
+    maxRetry: 3
+    maxRetryInterval: 500
+
+occupations:
+  api:
+    baseUrl: http://localhost:33503
+    path: /api/occupations/{id}
+    maxRetry: 3
+    maxRetryInterval: 500
+

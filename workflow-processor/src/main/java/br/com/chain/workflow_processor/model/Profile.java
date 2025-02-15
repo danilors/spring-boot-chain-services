@@ -5,6 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public record Profile(Long id, String name, String email) {
+public record Profile(Integer id, String name, String email) {
 
 }
