@@ -2,14 +2,17 @@ package br.com.chain.workflow_processor.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
+
 
 @Getter
 @Setter
+@Slf4j
 public class CommonData {
 
     private Address address;
@@ -19,24 +22,32 @@ public class CommonData {
     private CommonData() {
     }
 
-    private static final Map<Class<?>, Consumer<CommonData>> INFO_SETTERS = new HashMap<>();
-
-    static {
-        INFO_SETTERS.put(Address.class, commonData -> commonData.setAddress(commonData.getAddress()));
-        INFO_SETTERS.put(Profile.class, commonData -> commonData.setProfile(commonData.getProfile()));
-        INFO_SETTERS.put(Occupation.class, commonData -> commonData.setOccupation(commonData.getOccupation()));
-        // Add more types here as needed
+    public static CommonData fromInformation(List<?> information) {
+        return parseInformationData(information);
     }
 
-    public static CommonData fromInformation(List<?> information) {
-        CommonData commonData = new CommonData();
-        information.forEach(info -> {
-            Consumer<CommonData> setter = INFO_SETTERS.get(info.getClass());
-            if (setter != null) {
-                setter.accept(commonData);
+
+    private static CommonData parseInformationData(List<?> information) {
+        log.info("parsing information: {}", information);
+        var commonData = new CommonData();
+        information.forEach(item -> {
+            Class<?> wrapperClass = commonData.getClass();
+            Class<?> itemClass = item.getClass();
+            String setterName = "set" + itemClass.getSimpleName();
+            try {
+                Method setterMethod = wrapperClass.getMethod(setterName, itemClass);
+                setterMethod.invoke(commonData, item);
+            } catch (NoSuchMethodException |
+                     InvocationTargetException |
+                     IllegalAccessException e) {
+                // Handle the case where the setter method doesn't exist.
+                // This might happen if the PersonWrapper doesn't have a setter for
+                // the given item type.  You could log a warning, throw an exception,
+                // or simply ignore it.  Here's an example of logging a warning:
+                log.error("Warning: No setter found for type {}", itemClass.getSimpleName());
             }
+
         });
         return commonData;
     }
-
 }
