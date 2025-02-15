@@ -1,10 +1,7 @@
 package br.com.chain.workflow_processor.controller;
 
-import br.com.chain.workflow_processor.model.Address;
-import br.com.chain.workflow_processor.model.CentralData;
-import br.com.chain.workflow_processor.model.Occupation;
-import br.com.chain.workflow_processor.model.Profile;
-import br.com.chain.workflow_processor.service.CentralService;
+import br.com.chain.workflow_processor.model.*;
+import br.com.chain.workflow_processor.service.ParallelProcessService;
 import br.com.chain.workflow_processor.service.WorkflowService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +16,11 @@ import reactor.core.publisher.Mono;
 public class WorkFlowController {
 
     private final WorkflowService workflowService;
-    private final CentralService centralService;
+    private final ParallelProcessService parallelProcessService;
 
-    public WorkFlowController(WorkflowService workflowService, CentralService centralService) {
+    public WorkFlowController(WorkflowService workflowService, ParallelProcessService parallelProcessService) {
         this.workflowService = workflowService;
-        this.centralService = centralService;
+        this.parallelProcessService = parallelProcessService;
     }
 
     @GetMapping("/stream")
@@ -46,10 +43,14 @@ public class WorkFlowController {
         return workflowService.getOccupation();
     }
 
-    @GetMapping("/central")
+    @GetMapping("/listeners")
     public Mono<CentralData> start() {
-        return centralService.start();
+        return workflowService.start();
     }
 
+    @GetMapping("/parallel")
+    public Mono<CommonData> getAll() {
+        return parallelProcessService.getParallelData();
+    }
 
 }
