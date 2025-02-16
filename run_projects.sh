@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the project directories
-PROJECT_DIRS=("./profile" "./address" "./occupation")
+PROJECT_DIRS=("./profile" "./address" "./occupation" "./rules")
 
 # Array to store PIDs with project names
 PID_INFO=()
