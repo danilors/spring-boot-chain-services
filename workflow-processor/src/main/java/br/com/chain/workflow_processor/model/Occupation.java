@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public record Occupation(Long id, String name, Integer code) {
+public record Occupation(int id, String name, int code) {
 
+    public static Occupation defaultOccupation() {
+        return new Occupation(-1, "Unknown", -1);
+    }
 }

@@ -2,9 +2,9 @@ package br.com.chain.workflow_processor.model;
 
 
 public record Address(
-        Integer id,
+        int id,
         String street,
-        Integer number
+        int number
 ) {
     public static Address defaulAddres() {
         return new Address(-1, "Unknown", 0);

@@ -45,13 +45,8 @@ public class AddressClient {
                 .uri(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .onStatus(HttpStatusCode::isError, response -> {
-                    return response.bodyToMono(String.class)
-                            .flatMap(errorBody -> Mono.just(new AddressClientException("Error: " + response.statusCode() + " - " + errorBody)));
-                })
                 .bodyToMono(Address.class)
                 .retryWhen(Retry.backoff(maxRetry, Duration.ofMillis(maxRetryInterval))
-                        .filter(throwable -> !(throwable instanceof AddressClientException))
                         .doBeforeRetry((signal) -> {
                             log.debug("Retrying: {}", signal);
                         }))

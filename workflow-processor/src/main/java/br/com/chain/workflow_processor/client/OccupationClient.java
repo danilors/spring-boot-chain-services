@@ -2,6 +2,7 @@ package br.com.chain.workflow_processor.client;
 
 import br.com.chain.workflow_processor.exception.OccupationClientException;
 import br.com.chain.workflow_processor.model.Occupation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -14,6 +15,7 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 
+@Slf4j
 @Component
 public class OccupationClient {
 
@@ -43,15 +45,12 @@ public class OccupationClient {
                 .uri(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .onStatus(HttpStatusCode::isError, response -> {
-                    return response.bodyToMono(String.class)
-                            .flatMap(errorBody -> Mono.error(new OccupationClientException("Error: " + response.statusCode() + " - " + errorBody)));
-                })
                 .bodyToMono(Occupation.class)
                 .retryWhen(Retry.backoff(maxRetry, Duration.ofMillis(maxRetryInterval))
-                        .filter(throwable -> !(throwable instanceof OccupationClientException))
-                        .onRetryExhaustedThrow((signal, ex) -> {
-                            return new OccupationClientException("Failed to get occupation after multiple retries", ex.failure());
-                        }));
+                        .doBeforeRetry((signal) -> {
+                            log.debug("Retrying: {}", signal);
+                        }))
+                .onErrorResume(ex -> Mono.just(Occupation.defaultOccupation()));
+
     }
 }
