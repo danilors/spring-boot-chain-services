@@ -18,13 +18,12 @@ public class WorkFlowController {
 
     private final ParallelProcessService parallelProcessService;
 
-    public WorkFlowController( ParallelProcessService parallelProcessService) {
+    public WorkFlowController(ParallelProcessService parallelProcessService) {
         this.parallelProcessService = parallelProcessService;
     }
 
-    @GetMapping("/parallel/{profileId}")
-    public Mono<CommonData> getAll(@PathVariable String profileId) {
-        return parallelProcessService.getParallelData(Integer.parseInt(profileId));
+    @GetMapping("/parallel/{profileId}/{ruleId}")
+    public Mono<CommonData> getAll(@PathVariable String profileId, @PathVariable String ruleId) {
+        return parallelProcessService.getParallelData(Integer.parseInt(profileId), Integer.parseInt(ruleId));
     }
-
 }

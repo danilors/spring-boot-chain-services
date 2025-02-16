@@ -15,12 +15,7 @@ import java.time.Duration;
 
 @Slf4j
 @Component
-public class OccupationClient {
-
-    private final WebClient webClient;
-    private final String path;
-    private final Integer maxRetry;
-    private final Integer maxRetryInterval;
+public class OccupationClient extends  AbstractClient {
 
     @Autowired
     public OccupationClient(WebClient.Builder webClientBuilder,

@@ -17,21 +17,13 @@ import java.time.Duration;
 
 @Slf4j
 @Component
-public class ProfileClient {
+public class ProfileClient extends AbstractClient {
 
-    private final WebClient webClient;
-    private final String path;
-    private final Integer maxRetry;
-    private final Integer maxRetryInterval;
-
-    @Autowired
     public ProfileClient(WebClient.Builder webClientBuilder,
                          @Value("${profiles.api.baseUrl}") String baseUrl,
                          @Value("${profiles.api.path}") String path,
                          @Value("${profiles.api.maxRetry}") Integer maxRetry,
                          @Value("${profiles.api.maxRetryInterval}") Integer maxRetryInterval
-
-
     ) {
         this.path = path;
         this.maxRetry = maxRetry;
@@ -54,8 +46,8 @@ public class ProfileClient {
                 .retryWhen(Retry.backoff(maxRetry, Duration.ofMillis(maxRetryInterval))
                         .filter(throwable -> !(throwable instanceof ProfileClientException))
                         .onRetryExhaustedThrow((signal, ex) -> new ProfileClientException("Failed to get profile after multiple retries", ex.failure()))
-                        .doBeforeRetry((signal) -> { // Log retry attempts
-                            log.debug("Retrying: {}", signal); // Or log.trace for more detail
+                        .doBeforeRetry((signal) -> {
+                            log.debug("Retrying: {}", signal);
                         }));
 
     }

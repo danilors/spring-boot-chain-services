@@ -15,12 +15,8 @@ import java.time.Duration;
 
 @Slf4j
 @Component
-public class AddressClient {
+public class AddressClient extends  AbstractClient {
 
-    private final WebClient webClient;
-    private final String path;
-    private final Integer maxRetry;
-    private final Integer maxRetryInterval;
 
     @Autowired
     public AddressClient(WebClient.Builder webClientBuilder,
