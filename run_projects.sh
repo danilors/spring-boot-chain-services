@@ -3,6 +3,9 @@
 # Define the project directories
 PROJECT_DIRS=("./profile" "./address" "./occupation")
 
+# Array to store PIDs with project names
+PID_INFO=()
+
 # Loop through each project directory
 for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
   echo "Starting project in: $PROJECT_DIR"
@@ -13,34 +16,26 @@ for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
   # Run the Maven Spring command in the background
   mvn spring-boot:run &
 
-  # Store the process ID (PID) of the background process
-  PIDS+=($!)
+  # Store the process ID (PID) and project name
+  PID_INFO+=("${PROJECT_DIR}:${!}") # Store project name and PID
 
-  # Change back to the parent directory (optional, but good practice)
+  # Change back to the parent directory
   cd .. || { echo "Error: Could not change back to parent directory"; exit 1; }
 
-  echo "Project started in background (PID: ${PIDS[-1]})"
+  # Extract PID from the last element of PID_INFO
+  PID="${PID_INFO[-1]##*:}"
+
+  echo "Project $PROJECT_DIR started in background (PID: $PID)"
 
 done
 
 echo "All projects started."
 
-# Optional: Wait for all background processes to finish (uncomment if needed)
-#for PID in "${PIDS[@]}"; do
-#  wait "$PID"
-#  echo "Project with PID $PID finished."
-#done
-
-# Optional:  If you want to stop all the processes at once later, you can store the PIDs in a file.
-# echo "${PIDS[@]}" > pids.txt
-
-# Optional: Function to kill all the processes (useful if you don't use 'wait')
-#kill_all_processes() {
-#    for PID in "${PIDS[@]}"; do
-#        kill "$PID" 2>/dev/null  # Suppress "no such process" errors
-#    done
-#    rm pids.txt #Remove the pids file
-#}
-
-# Trap Ctrl+C (interrupt signal) to gracefully kill the background processes
-#trap "kill_all_processes; exit" INT
+# Optionally print all PID information at the end:
+echo ""
+echo "Project PID Information:"
+for info in "${PID_INFO[@]}"; do
+  project_name="${info%%:*}"
+  pid="${info##*:}"
+  echo "Project: $project_name, PID: $pid"
+done

@@ -2,6 +2,7 @@ package br.com.chain.workflow_processor.client;
 
 import br.com.chain.workflow_processor.exception.AddressClientException;
 import br.com.chain.workflow_processor.model.Address;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -14,6 +15,7 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 
+@Slf4j
 @Component
 public class AddressClient {
 
@@ -45,14 +47,16 @@ public class AddressClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response -> {
                     return response.bodyToMono(String.class)
-                            .flatMap(errorBody -> Mono.error(new AddressClientException("Error: " + response.statusCode() + " - " + errorBody)));
+                            .flatMap(errorBody -> Mono.just(new AddressClientException("Error: " + response.statusCode() + " - " + errorBody)));
                 })
                 .bodyToMono(Address.class)
                 .retryWhen(Retry.backoff(maxRetry, Duration.ofMillis(maxRetryInterval))
                         .filter(throwable -> !(throwable instanceof AddressClientException))
-                        .onRetryExhaustedThrow((signal, ex) -> {
-                            return new AddressClientException("Failed to get address after multiple retries", ex.failure());
-                        }));
+                        .doBeforeRetry((signal) -> {
+                            log.debug("Retrying: {}", signal);
+                        }))
+                .onErrorResume(signal -> Mono.just(Address.defaulAddres()));
+
 
     }
 }
