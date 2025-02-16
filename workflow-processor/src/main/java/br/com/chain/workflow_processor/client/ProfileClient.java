@@ -2,6 +2,7 @@ package br.com.chain.workflow_processor.client;
 
 import br.com.chain.workflow_processor.exception.ProfileClientException;
 import br.com.chain.workflow_processor.model.Profile;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -14,6 +15,7 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 
+@Slf4j
 @Component
 public class ProfileClient {
 
@@ -46,15 +48,15 @@ public class ProfileClient {
                 .uri(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .onStatus(HttpStatusCode::isError, response -> {
-                    return response.bodyToMono(String.class)
-                            .flatMap(errorBody -> Mono.error(new ProfileClientException("Error: " + response.statusCode() + " - " + errorBody)));
-                })
+                .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
+                        .flatMap(errorBody -> Mono.error(new ProfileClientException("Error: " + response.statusCode() + " - " + errorBody))))
                 .bodyToMono(Profile.class)
                 .retryWhen(Retry.backoff(maxRetry, Duration.ofMillis(maxRetryInterval))
                         .filter(throwable -> !(throwable instanceof ProfileClientException))
-                        .onRetryExhaustedThrow((signal, ex) -> {
-                            return new ProfileClientException("Failed to get profile after multiple retries", ex.failure());
+                        .onRetryExhaustedThrow((signal, ex) -> new ProfileClientException("Failed to get profile after multiple retries", ex.failure()))
+                        .doBeforeRetry((signal) -> { // Log retry attempts
+                            log.debug("Retrying: {}", signal); // Or log.trace for more detail
                         }));
+
     }
 }

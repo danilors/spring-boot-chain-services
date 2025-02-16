@@ -26,3 +26,11 @@ occupations:
     maxRetry: 3
     maxRetryInterval: 500
 
+
+logging:
+  level:
+    root: INFO # Log level padrão para todas as categorias
+    # Categorias específicas (opcional):
+    org.springframework: INFO # Log level para o Spring Framework
+    br.com.chain.workflow_processor: DEBUG # Log level para o seu pacote (substitua com o seu pacote)
+    # Outras categorias que você queira configurar...
