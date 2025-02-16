@@ -16,8 +16,8 @@ public class ProfileService {
         this.profileClient = profileClient;
     }
 
-    Mono<Profile> getProfile() {
-        return profileClient.getProfiles();
+    Mono<Profile> getProfile(Integer profileId) {
+        return profileClient.getProfileById(profileId);
     }
 
 }
