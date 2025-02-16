@@ -6,7 +6,6 @@ server:
   port: 15350
 
 
-
 profiles:
   api:
     baseUrl: http://localhost:33501

@@ -1,4 +1,4 @@
 package br.com.chain.workflow_processor.model;
 
-public class RequestData {
+public record RequestData(int profileId, int rulesId) {
 }

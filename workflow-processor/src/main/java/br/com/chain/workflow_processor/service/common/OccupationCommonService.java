@@ -3,6 +3,7 @@ package br.com.chain.workflow_processor.service.common;
 import br.com.chain.workflow_processor.enums.ServiceNamesEnum;
 import br.com.chain.workflow_processor.client.OccupationClient;
 import br.com.chain.workflow_processor.model.Occupation;
+import br.com.chain.workflow_processor.model.Profile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -24,8 +25,8 @@ public class OccupationCommonService implements CommonService {
     }
 
     @Override
-    public Mono<Occupation> getData(Integer profileId) {
-        return occupationClient.getOccupationById(profileId);
+    public Mono<Occupation> getData(Profile profile) {
+        return occupationClient.getOccupationById(profile.occupationId());
     }
 
 

@@ -4,6 +4,7 @@ import static br.com.chain.workflow_processor.enums.ServiceNamesEnum.*;
 
 import br.com.chain.workflow_processor.enums.ServiceNamesEnum;
 import br.com.chain.workflow_processor.model.CommonData;
+import br.com.chain.workflow_processor.model.RequestData;
 import br.com.chain.workflow_processor.model.RuleServices;
 import br.com.chain.workflow_processor.service.common.CommonService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +18,9 @@ import java.util.List;
 @Service
 public class ParallelProcessService {
 
-
     private final ProfileService profileService;
     private final List<CommonService> commonServices;
     private final RuleService ruleService;
-
 
     public ParallelProcessService(ProfileService profileService, List<CommonService> commonServices, RuleService ruleService) {
         this.profileService = profileService;
@@ -31,11 +30,15 @@ public class ParallelProcessService {
 
     public Mono<CommonData> getParallelData(int profileId, int rulesId) {
         return ruleService.getRulesById(rulesId)
-                .flatMap(r -> profileService.getProfile(profileId)
+                .flatMap(ruleServices -> profileService.getProfile(profileId)
                         .flatMap(profileData -> Flux.fromIterable(commonServices)
-                                .filter(service -> r.getServices().contains(service.getServiceName()))
-                                .flatMap(service -> service.getData(profileId))
+                                .filter(service -> ruleServices.getServices().contains(service.getServiceName()))
+                                .flatMap(service -> service.getData(profileData))
                                 .collectList()
                                 .map(CommonData::fromInformation)));
+    }
+
+    public Mono<CommonData> getParallelData(RequestData data) {
+        return getParallelData(data.profileId(), data.rulesId());
     }
 }
