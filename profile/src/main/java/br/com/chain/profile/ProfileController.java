@@ -24,7 +24,7 @@ public class ProfileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProfileById(@PathVariable Long id) {
+    public ResponseEntity<?> getProfileById(@PathVariable int id) {
           try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -44,7 +44,7 @@ public class ProfileController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody Profile profile) {
+    public ResponseEntity<?> updateProfile(@PathVariable int id, @RequestBody Profile profile) {
 
         var result = profileService.updateProfile(id, profile);
         if (result == null) {
@@ -54,7 +54,7 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProfile(@PathVariable int id) {
         profileService.deleteProfile(id);
         return ResponseEntity.ok().build();
     }
