@@ -8,4 +8,6 @@ public interface CommonService {
     Mono<?> getData(Profile profile);
 
     ServiceNamesEnum getServiceName();
+
+    boolean isActive();
 }

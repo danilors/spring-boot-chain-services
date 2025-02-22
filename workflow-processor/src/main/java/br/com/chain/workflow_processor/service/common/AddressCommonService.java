@@ -27,5 +27,10 @@ public class AddressCommonService implements CommonService {
         return ServiceNamesEnum.ADDRESS;
     }
 
+    @Override
+    public boolean isActive() {
+        return Boolean.TRUE;
+    }
+
 
 }

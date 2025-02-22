@@ -33,6 +33,7 @@ public class ParallelProcessService {
                 .flatMap(ruleServices -> profileService.getProfile(profileId)
                         .flatMap(profileData -> Flux.fromIterable(commonServices)
                                 .filter(service -> ruleServices.getServices().contains(service.getServiceName()))
+                                .filter(CommonService::isActive)
                                 .flatMap(service -> service.getData(profileData))
                                 .collectList()
                                 .map(CommonData::fromInformation)));

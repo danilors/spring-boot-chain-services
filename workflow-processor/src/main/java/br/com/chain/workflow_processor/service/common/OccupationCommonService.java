@@ -29,5 +29,9 @@ public class OccupationCommonService implements CommonService {
         return occupationClient.getOccupationById(profile.occupationId());
     }
 
+    @Override
+    public boolean isActive() {
+        return Boolean.TRUE;
+    }
 
 }
