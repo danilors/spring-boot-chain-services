@@ -25,6 +25,7 @@ public class OccupationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOccupationById(@PathVariable Long id) {
+        log.info("[START] getting occupation with id: {}", id);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -34,6 +35,7 @@ public class OccupationController {
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("[END] getting occupation result: {}", result);
         return ResponseEntity.ok(result);
     }
 

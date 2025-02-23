@@ -12,7 +12,7 @@ import java.util.List;
 public class ProfileController {
 
     private final ProfileService profileService;
-    
+
 
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
@@ -20,21 +20,23 @@ public class ProfileController {
 
     @GetMapping
     public List<Profile> getAllProfiles() {
-       return profileService.getAllProfiles();
+        return profileService.getAllProfiles();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProfileById(@PathVariable int id) {
-          try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+        log.info("[START] getting profile by id {}", id);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());
+        }
         var result = profileService.getProfileById(id);
-        
+
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("[END] getting profile result: {}", result);
         return ResponseEntity.ok(result);
     }
 

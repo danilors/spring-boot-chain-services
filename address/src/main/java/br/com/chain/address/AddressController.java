@@ -24,6 +24,7 @@ public class AddressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAddressById(@PathVariable Long id) {
+        log.info("[START] getting address by id {}", id);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -33,6 +34,7 @@ public class AddressController {
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("[END] getting address result: {}", result);
         return ResponseEntity.ok(result);
     }
 
@@ -43,7 +45,7 @@ public class AddressController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody Address address) {
-                var result = addressService.updateAddress(id, address);
+        var result = addressService.updateAddress(id, address);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
