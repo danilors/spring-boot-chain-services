@@ -25,11 +25,6 @@ public class AddressController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getAddressById(@PathVariable Long id) {
         log.info("[START] getting address by id {}", id);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
         var result = addressService.getAddressById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();

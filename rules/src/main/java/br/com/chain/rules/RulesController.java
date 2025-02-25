@@ -38,12 +38,6 @@ public class RulesController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRules(@PathVariable Long id, @RequestBody Rules rules) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
-
         var result = rulesService.updateRules(id, rules);
         if (result == null) {
             return ResponseEntity.notFound().build();

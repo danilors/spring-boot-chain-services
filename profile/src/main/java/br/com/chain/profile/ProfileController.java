@@ -26,11 +26,7 @@ public class ProfileController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getProfileById(@PathVariable int id) {
         log.info("[START] getting profile by id {}", id);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
+      
         var result = profileService.getProfileById(id);
 
         if (result == null) {
