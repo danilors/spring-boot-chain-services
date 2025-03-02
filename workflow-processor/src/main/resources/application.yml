@@ -6,7 +6,6 @@ server:
   port: 15350
 
 
-
 profiles:
   api:
     baseUrl: http://localhost:33501
@@ -28,3 +27,9 @@ occupations:
     maxRetry: 3
     maxRetryInterval: 500
 
+rules:
+  api:
+    baseUrl: http://localhost:33504
+    path: /api/rules/{id}
+    maxRetry: 3
+    maxRetryInterval: 500

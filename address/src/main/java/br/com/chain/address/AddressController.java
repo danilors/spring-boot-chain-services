@@ -24,10 +24,12 @@ public class AddressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAddressById(@PathVariable Long id) {
+        log.info("[START] getting address by id {}", id);
         var result = addressService.getAddressById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("[END] getting address result: {}", result);
         return ResponseEntity.ok(result);
     }
 
@@ -38,12 +40,6 @@ public class AddressController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody Address address) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
-
         var result = addressService.updateAddress(id, address);
         if (result == null) {
             return ResponseEntity.notFound().build();

@@ -8,5 +8,6 @@
     <module>address</module>
     <module>profile</module>
     <module>occupation</module>
+    <module>rules</module>
   </modules>
   </project>

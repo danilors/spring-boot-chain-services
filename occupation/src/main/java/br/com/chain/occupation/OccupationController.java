@@ -25,15 +25,13 @@ public class OccupationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOccupationById(@PathVariable Long id) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage());
-        }
+        log.info("[START] getting occupation with id: {}", id);
+    
         var result = occupationService.getOccupationById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
+        log.info("[END] getting occupation result: {}", result);
         return ResponseEntity.ok(result);
     }
 

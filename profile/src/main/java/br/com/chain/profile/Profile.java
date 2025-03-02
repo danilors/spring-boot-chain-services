@@ -16,11 +16,17 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "address", nullable = false)
+    private int addressId;
+
+    @Column(name = "occupation", nullable = false)
+    private int occupationId;
 }
