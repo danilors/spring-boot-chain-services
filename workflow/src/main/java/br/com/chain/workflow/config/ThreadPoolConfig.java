@@ -22,9 +22,9 @@ public class ThreadPoolConfig {
     @Bean("taskExecutor")
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(40);
-        executor.setMaxPoolSize(60);
-        executor.setQueueCapacity(50);
+        executor.setCorePoolSize(80);
+        executor.setMaxPoolSize(120);
+        executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("Executor-");
         executor.initialize();
         return executor;
@@ -38,7 +38,7 @@ public class ThreadPoolConfig {
     @Bean
     TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
         return protocolHandler -> {
-            logger.info("Configuring " + protocolHandler + " to use VirtualThreadPerTaskExecutor");
+            logger.info("Configuring {} to use VirtualThreadPerTaskExecutor", protocolHandler);
             protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
         };
     }
