@@ -1,9 +1,6 @@
 package br.com.chain.workflow.service;
 
 import br.com.chain.workflow.model.DataWorkflow;
-import io.reactivex.Completable;
-import io.reactivex.Single;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,20 +8,26 @@ import java.util.List;
 @Service
 public class WorkFlowService {
 
-
-    private final DataWorkflow dataWorkflow;
-    private final ProfileService profileService;
     private final List<CompletableService> services;
+    private final ProfileService profileService;
+    private final TaskExecutorService taskExecutorService;
 
-    public WorkFlowService(DataWorkflow dataWorkflow, ProfileService profileService, List<CompletableService> services) {
-        this.dataWorkflow = dataWorkflow;
-        this.profileService = profileService;
+
+    public WorkFlowService(List<CompletableService> services, ProfileService profileService, TaskExecutorService taskExecutorService) {
         this.services = services;
+        this.profileService = profileService;
+        this.taskExecutorService = taskExecutorService;
+    }
+    public DataWorkflow startTaskExecutor(int profileId) {
+        var profile = profileService.getProfileById(profileId);
+        return taskExecutorService.processTask(profile, services);
     }
 
-    public Single<DataWorkflow> start() {
-        // 1. Subscribe to profileService and set profiles in dataWorkflow
-        return profileService.getAllProfiles().;// 3. Return the dataWorkflow when all is complete
+    public DataWorkflow startParallelStream(int profileId) {
+        var profile = profileService.getProfileById(profileId);
+        var data = new DataWorkflow(profile);
+        services.parallelStream().forEach(service -> service.run(profile, data));
+        return data;
     }
 
 }

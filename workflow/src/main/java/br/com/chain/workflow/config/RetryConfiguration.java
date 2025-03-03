@@ -5,10 +5,10 @@ import feign.Retryer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class RetryConfiguration {
 
-    @Bean
+//    @Bean
     public Retryer retryer() {
         return new Retryer.Default(500, 2000, 3);
     }

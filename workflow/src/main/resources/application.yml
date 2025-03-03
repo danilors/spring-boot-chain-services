@@ -12,26 +12,7 @@ spring:
             connectTimeout: 5000
             readTimeout: 5000
             loggerLevel: basic
-          profileClient:
-            url: http://localhost:33501/api/profiles
-            connectTimeout: 5000
-            readTimeout: 5000
-            loggerLevel: full
-            errorDecoder: br.com.chain.workflow.clients.Custom5xxErrorDecoder
-          addressClient:
-            url: http://localhost:33502/api/address
-            connectTimeout: 5000
-            readTimeout: 5000
-            loggerLevel: full
-            errorDecoder: br.com.chain.workflow.clients.Custom5xxErrorDecoder
-          occupationsClient:
-            url: http://localhost:33503/api/occupations
-            connectTimeout: 5000
-            readTimeout: 5000
-            loggerLevel: full
-            errorDecoder: br.com.chain.workflow.clients.Custom5xxErrorDecoder
-      circuitbreaker:
-        enabled: true
-        alphanumeric-ids:
-          enabled: true
-
+app:
+  redis:
+    host: 127.0.0.1
+    port: 6379

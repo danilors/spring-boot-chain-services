@@ -3,12 +3,10 @@ package br.com.chain.workflow.service;
 import br.com.chain.workflow.clients.OccupationsClient;
 import br.com.chain.workflow.model.DataWorkflow;
 import br.com.chain.workflow.model.Occupation;
-import io.reactivex.disposables.Disposable;
+import br.com.chain.workflow.model.Profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class OccupationService implements CompletableService {
@@ -16,33 +14,20 @@ public class OccupationService implements CompletableService {
     private static final Logger logger = LoggerFactory.getLogger(OccupationService.class.getName());
 
     private final OccupationsClient occupationsClient;
-    private Disposable dataSubscription;
 
     public OccupationService(OccupationsClient occupationsClient) {
         this.occupationsClient = occupationsClient;
     }
 
-    @Override
-    public void listenTo(DataWorkflow dataWorkflow) {
-        dataSubscription = dataWorkflow.observeChanges().subscribe(data -> {
-            if (data.getOccupation().isPresent()) {
-                stopListening();
-            }
-            var occupations = getAllOccupations();
-            data.setOccupation(occupations);
-        });
-    }
-
-    public List<Occupation> getAllOccupations() {
+    public Occupation getOccupationById(int occupationId) {
         logger.info("GETTING ALL OCCUPATIONS");
-        return occupationsClient.getAllOccupations();
+        return occupationsClient.getOccupationId(occupationId);
     }
 
-    public void stopListening() {
-        logger.info("STOP LISTENING OCCUPATIONS");
-        if (dataSubscription != null && !dataSubscription.isDisposed()) {
-            dataSubscription.dispose();
-        }
+    @Override
+    public void run(Profile profile, DataWorkflow dataWorkflow) {
+        logger.info("running in thread: {}", Thread.currentThread().getName());
+        var occupation = this.getOccupationById(profile.occupationId());
+        dataWorkflow.setOccupation(occupation);
     }
-
 }
