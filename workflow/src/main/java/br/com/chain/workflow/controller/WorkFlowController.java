@@ -28,7 +28,7 @@ public class WorkFlowController {
     @GetMapping(value = "/start/{profileId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DataWorkflow> startFlow(@PathVariable("profileId") int profileId) { // Correct return type: Single<DataWorkflow>
         logger.info("STARTING WORKFLOW");
-        return ResponseEntity.ok(workFlowService.start(profileId));
+        return ResponseEntity.ok(workFlowService.startTaskExecutor(profileId));
 
     }
 }

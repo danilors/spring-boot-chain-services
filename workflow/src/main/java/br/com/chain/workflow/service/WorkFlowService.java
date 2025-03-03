@@ -18,8 +18,16 @@ public class WorkFlowService {
         this.profileService = profileService;
         this.taskExecutorService = taskExecutorService;
     }
-    public DataWorkflow start(int profileId) {
+    public DataWorkflow startTaskExecutor(int profileId) {
         var profile = profileService.getProfileById(profileId);
         return taskExecutorService.processTask(profile, services);
     }
+
+    public DataWorkflow startParallelStream(int profileId) {
+        var profile = profileService.getProfileById(profileId);
+        var data = new DataWorkflow(profile);
+        services.parallelStream().forEach(service -> service.run(profile, data));
+        return data;
+    }
+
 }

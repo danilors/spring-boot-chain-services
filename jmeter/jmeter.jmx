@@ -29,10 +29,10 @@
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Workflow-Proccessor  Group">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
-          <stringProp name="LoopController.loops">10000</stringProp>
+          <stringProp name="LoopController.loops">5000</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">100</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -62,7 +62,7 @@ import org.apache.jmeter.threads.JMeterContextService;
 int threadNum = JMeterContextService.getContext().getThreadNum();
 
 // Calcula os valores de &apos;rules&apos; e &apos;profileId&apos; com base no número da thread
-int rulesValue = (threadNum % 10) + 1; // Garante valores de 1 a 10
+int rulesValue = (threadNum % 2) + 1; // Garante valores de 1 a 10
 int profileIdValue = ((threadNum + 5) % 10) + 1; // Garante valores de 1 a 10 (deslocados)
 
 // Armazena os UUIDs nas variáveis JMeter
@@ -78,10 +78,10 @@ log.info(&quot;Thread: &quot; + threadNum + &quot;, profileId: &quot; + profileI
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="WorkFlow Group">
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
-          <stringProp name="LoopController.loops">10000</stringProp>
+          <stringProp name="LoopController.loops">5000</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">100</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
