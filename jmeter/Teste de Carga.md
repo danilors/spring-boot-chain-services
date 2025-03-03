@@ -4,11 +4,11 @@
 Os testes de carga foram realizados utilizando o Apache JMeter, simulando 100 usuários simultâneos com uma rampa de 1 minuto. Cada uma das duas APIs, 'workflow-proccessor' e 'workflow', recebeu 500.000 requisições. Ambas as APIs foram executadas em um ambiente Java 21 GraalVM. A API 'workflow-proccessor' foi desenvolvida utilizando uma abordagem reativa com WebFlux, enquanto a API 'workflow' utilizou uma abordagem bloqueante tradicional.
 
 ###Workflow (Reativa)
-![[workflowprocessor.png]]
+![[./images/workflowprocessor.png]]
 
 
 ### Workflow (normal)
-![[workflow.png]]
+![[./images/workflow.png]]
 
 **Análise Detalhada:**
 
