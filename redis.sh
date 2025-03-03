@@ -1,0 +1,1 @@
+podman run -d -p 6379:6379 --name my-redis -v redis-data:/data redis redis-server --save 60 1
