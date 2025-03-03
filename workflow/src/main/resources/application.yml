@@ -2,6 +2,9 @@ server:
   port: 12400
 
 spring:
+  threads:
+    virtual:
+      enabled: true
   application:
     name: workflow
   cloud:
@@ -16,3 +19,4 @@ app:
   redis:
     host: 127.0.0.1
     port: 6379
+
