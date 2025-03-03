@@ -27,52 +27,51 @@ Os testes de carga foram realizados utilizando o Apache JMeter, simulando 100 us
 | KB Recebidos por Segundo  | 132.03              | 298.90    | 420.33     |
 | KB Enviados por Segundo   | 120.42              | 107.25    | 218.17     |
 
-**1. workflow-proccessor:**
+## 1. workflow-proccessor:
 
-- **# Samples:** 500,000 - Um número significativo de amostras, fornecendo dados estatísticos confiáveis.
-- **Average:** 178 ms - Tempo de resposta médio razoável.
-- **Median:** 162 ms - A maioria das requisições respondeu em 162 ms ou menos, indicando consistência.
-- **Percentis (90%, 95%, 99%):** Os percentis mostram um aumento gradual, mas ainda em valores aceitáveis. Isso indica que a maioria das requisições teve um tempo de resposta consistente.
-- **Min:** 4 ms - Tempo de resposta mínimo muito rápido.
-- **Max:** 1367 ms - Tempo de resposta máximo consideravelmente alto, indicando variações significativas.
-- **Error %:** 0.000% - Nenhuma requisição resultou em erro, o que é excelente.
-- **Throughput:** 509.72816/sec - Um throughput alto, indicando que o servidor está processando muitas requisições por segundo.
-- **Received KB/sec:** 77.41 - Taxa de recebimento de dados razoável.
-- **Sent KB/sec:** 70.73 - Taxa de envio de dados razoável.
+* **Samples:** 500,000 - Um número significativo de amostras, fornecendo dados estatísticos confiáveis.
+* **Average:** 95 ms - Tempo de resposta médio bom.
+* **Median:** 76 ms - A maioria das requisições respondeu em 76 ms ou menos, indicando consistência.
+* **Percentis (90%, 95%, 99%):** Os percentis mostram um aumento gradual, mas ainda em valores aceitáveis.
+* **Min:** 3 ms - Tempo de resposta mínimo muito rápido.
+* **Max:** 949 ms - Tempo de resposta máximo consideravelmente alto, indicando variações significativas.
+* **Error %:** 0.000% - Nenhuma requisição resultou em erro, o que é excelente.
+* **Throughput:** 867.74672/sec - Um throughput alto.
+* **Received KB/sec:** 132.03 - Taxa de recebimento de dados razoável.
+* **Sent KB/sec:** 120.42 - Taxa de envio de dados razoável.
 
-**2. workflow:**
+## 2. workflow:
 
-- **# Samples:** 500,000 - Também um número significativo de amostras.
-- **Average:** 207 ms - Tempo de resposta médio um pouco maior que "workflow-proccessor".
-- **Median:** 186 ms - A maioria das requisições respondeu em 186 ms ou menos.
-- **Percentis (90%, 95%, 99%):** Os percentis mostram um aumento maior em relação ao "workflow-proccessor", indicando maior variabilidade nos tempos de resposta.
-- **Min:** 2 ms - Tempo de resposta mínimo muito rápido.
-- **Max:** 1437 ms - Tempo de resposta máximo consideravelmente alto, indicando variações significativas.
-- **Error %:** 0.000% - Nenhuma requisição resultou em erro, o que é excelente.
-- **Throughput:** 477.84564/sec - Um throughput alto, mas ligeiramente menor que "workflow-proccessor".
-- **Received KB/sec:** 178.17 - Taxa de recebimento de dados maior que "workflow-proccessor".
-- **Sent KB/sec:** 63.98 - Taxa de envio de dados razoável.
+* **Samples:** 500,000 - Também um número significativo de amostras.
+* **Average:** 122 ms - Tempo de resposta médio um pouco maior que "workflow-proccessor".
+* **Median:** 105 ms - A maioria das requisições respondeu em 105 ms ou menos.
+* **Percentis (90%, 95%, 99%):** Os percentis mostram um aumento maior em relação ao "workflow-proccessor", indicando maior variabilidade nos tempos de resposta.
+* **Min:** 1 ms - Tempo de resposta mínimo muito rápido.
+* **Max:** 1238 ms - Tempo de resposta máximo consideravelmente alto, indicando variações significativas.
+* **Error %:** 0.009% - Uma taxa de erro muito baixa, mas existente.
+* **Throughput:** 801.01376/sec - Um throughput alto, mas ligeiramente menor que "workflow-proccessor".
+* **Received KB/sec:** 298.90 - Taxa de recebimento de dados maior que "workflow-proccessor".
+* **Sent KB/sec:** 107.25 - Taxa de envio de dados razoável.
 
-**3. TOTAL:**
+## 3. TOTAL:
 
-- **# Samples:** 1,000,000 - Número total de requisições.
-- **Average:** 192 ms - Tempo de resposta médio geral.
-- **Median:** 173 ms - Tempo de resposta mediano geral.
-- **Percentis (90%, 95%, 99%):** Percentis gerais.
-- **Min:** 2 ms - Tempo de resposta mínimo geral.
-- **Max:** 1437 ms - Tempo de resposta máximo geral.
-- **Error %:** 0.000% - Nenhuma requisição resultou em erro.
-- **Throughput:** 955.00494/sec - Throughput geral.
-- **Received KB/sec:** 250.55 - Taxa de recebimento de dados geral.
-- **Sent KB/sec:** 130.19 - Taxa de envio de dados geral.
+* **Samples:** 1,000,000 - Número total de requisições.
+* **Average:** 109 ms - Tempo de resposta médio geral bom.
+* **Median:** 88 ms - Tempo de resposta mediano geral bom.
+* **Percentis (90%, 95%, 99%):** Percentis gerais aceitáveis.
+* **Min:** 1 ms - Tempo de resposta mínimo geral.
+* **Max:** 1238 ms - Tempo de resposta máximo geral.
+* **Error %:** 0.004% - Uma taxa de erro muito baixa, mas existente.
+* **Throughput:** 1600.35592/sec - Throughput geral bom.
+* **Received KB/sec:** 420.33 - Taxa de recebimento de dados geral alta.
+* **Sent KB/sec:** 218.17 - Taxa de envio de dados geral razoável.
 
-**Avaliação Geral:**
+## Avaliação Geral:
 
-- Ambas as APIs apresentaram um bom desempenho geral, com tempos de resposta médios e medianos aceitáveis.
-- A taxa de erros é excelente (0.000%), indicando estabilidade.
-- O "workflow-proccessor" apresentou um desempenho ligeiramente superior em termos de tempo de resposta e throughput.
-- O "workflow" apresentou um recebimento de dados muito maior.
-- Os tempos máximos de resposta (Max) são consideravelmente altos em ambas as APIs, indicando variações significativas. Isso sugere que, embora a maioria das requisições seja rápida, algumas demoram muito mais.
-- Os resultados indicam que o sistema testado está respondendo bem sob carga, mas há espaço para otimização.
-
+Ambas as APIs apresentaram um bom desempenho geral, com tempos de resposta médios e medianos aceitáveis.
+A taxa de erros é muito baixa, mas a API "workflow" apresentou erros, o que precisa ser investigado.
+"workflow-proccessor" apresentou um desempenho ligeiramente superior em termos de tempo de resposta e throughput.
+"workflow" apresentou um recebimento de dados muito maior.
+Os tempos máximos de resposta (Max) são consideravelmente altos em ambas as APIs, indicando variações significativas. Isso sugere que, embora a maioria das requisições seja rápida, algumas demoram muito mais.
+Os resultados indicam que o sistema testado está respondendo bem sob carga, e houve uma melhora comparado ao teste anterior.
 
