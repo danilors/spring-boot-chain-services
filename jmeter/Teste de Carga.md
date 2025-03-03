@@ -12,20 +12,20 @@ Os testes de carga foram realizados utilizando o Apache JMeter, simulando 100 us
 
 **Análise Detalhada:**
 
-| Métrica                  | workflow-proccessor | workflow  | TOTAL     |
-| ------------------------ | ------------------- | --------- | --------- |
-| Número de Amostras       | 500000              | 500000    | 1000000   |
-| Média (ms)               | 178                 | 207       | 192       |
-| Mediana (ms)             | 162                 | 186       | 173       |
-| Percentil 90% (ms)       | 341                 | 389       | 366       |
-| Percentil 95% (ms)       | 408                 | 459       | 436       |
-| Percentil 99% (ms)       | 559                 | 613       | 590       |
-| Mínimo (ms)              | 4                   | 2         | 2         |
-| Máximo (ms)              | 1367                | 1437      | 1437      |
-| Taxa de Erro (%)         | 0.000%              | 0.000%    | 0.000%    |
-| Vazão (req/seg)          | 509.72816           | 477.84564 | 955.00494 |
-| KB Recebidos por Segundo | 77.41               | 178.17    | 250.55    |
-| KB Enviados por Segundo  | 70.73               | 63.98     | 130.19    |
+| Métrica                   | workflow-proccessor | workflow  | TOTAL      |
+| ------------------------- | ------------------- | --------- | ---------- |
+| Número de Amostras        | 500000              | 500000    | 1000000    |
+| Média (ms)                | 95                  | 122       | 109        |
+| Mediana (ms)              | 76                  | 105       | 88         |
+| Percentil 90% (ms)        | 187                 | 238       | 216        |
+| Percentil 95% (ms)        | 236                 | 287       | 266        |
+| Percentil 99% (ms)        | 348                 | 395       | 377        |
+| Mínimo (ms)               | 3                   | 1         | 1          |
+| Máximo (ms)               | 949                 | 1238      | 1238       |
+| Taxa de Erro (%)          | 0.000%              | 0.009%    | 0.004%     |
+| Vazão (req/seg)           | 867.74672           | 801.01376 | 1600.35592 |
+| KB Recebidos por Segundo  | 132.03              | 298.90    | 420.33     |
+| KB Enviados por Segundo   | 120.42              | 107.25    | 218.17     |
 
 **1. workflow-proccessor:**
 
