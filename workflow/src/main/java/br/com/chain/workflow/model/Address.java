@@ -1,4 +1,4 @@
 package br.com.chain.workflow.model;
 
-public record Address(Long id, String street, Integer number) {
+public record Address(int id, String street, Integer number) {
 }
