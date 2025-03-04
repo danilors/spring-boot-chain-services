@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class ProfileService {
 
@@ -26,16 +24,16 @@ public class ProfileService {
 
     public Profile getProfileById(int profileId) {
         logger.info("getting profile {}", profileId);
-//        var found = profileRepository.findById(String.valueOf(profileId));
-//        if (found.isPresent()) {
-//            logger.info("profile with id: {} found on redis cache", profileId);
-//            return found.get();
-//        }
-        //logger.info("profile with id: {} not found on Redis", profileId);
+        var found = profileRepository.findById(String.valueOf(profileId));
+        if (found.isPresent()) {
+            logger.info("profile with id: {} found on redis cache", profileId);
+            return found.get();
+        }
+        logger.info("profile with id: {} not found on Redis", profileId);
         var profile = profileClient.getProfileById(profileId);
         logger.info("profile with id: {} found via Profile API", profileId);
 
-//        profileRepository.save(profile);
+        profileRepository.save(profile);
         logger.info("profile saved  {} redis cache", profileId);
         return profile;
     }

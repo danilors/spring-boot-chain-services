@@ -20,7 +20,6 @@ public class WorkFlowController {
 
     private final WorkFlowService workFlowService;
 
-
     public WorkFlowController(WorkFlowService workFlowService) {
         this.workFlowService = workFlowService;
     }
