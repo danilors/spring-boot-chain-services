@@ -11,7 +11,10 @@ for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
   echo "Starting project in: $PROJECT_DIR"
 
   # Change to the project directory
-  cd "$PROJECT_DIR" || { echo "Error: Could not change directory to $PROJECT_DIR"; exit 1; }
+  cd "$PROJECT_DIR" || {
+    echo "Error: Could not change directory to $PROJECT_DIR"
+    exit 1
+  }
 
   # Run the Maven Spring command in the background
   mvn spring-boot:run &
@@ -20,7 +23,10 @@ for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
   PID_INFO+=("${PROJECT_DIR}:${!}") # Store project name and PID
 
   # Change back to the parent directory
-  cd .. || { echo "Error: Could not change back to parent directory"; exit 1; }
+  cd .. || {
+    echo "Error: Could not change back to parent directory"
+    exit 1
+  }
 
   # Extract PID from the last element of PID_INFO
   PID="${PID_INFO[-1]##*:}"
