@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  profile:
+    build:
+      context: ./profile
+      dockerfile: Dockerfile
+    container_name: profile-service
+    ports:
+      - "33501:33501"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker # you can add more environment variables here
+    networks:
+      - my-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  address:
+    build:
+      context: ./address
+      dockerfile: Dockerfile
+    container_name: address-service
+    ports:
+      - "33502:33502"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - my-network
+    volumes:
+      - maven_repo:/root/.m2
+  occupation:
+    build:
+      context: ./occupation
+      dockerfile: Dockerfile
+    container_name: occupation-service
+    ports:
+      - "33503:33503"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - my-network
+    volumes:
+      - maven_repo:/root/.m2
+  rules:
+    build:
+      context: ./rules
+      dockerfile: Dockerfile
+    container_name: rules-service
+    ports:
+      - "33504:33504"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - my-network
+    volumes:
+      - maven_repo:/root/.m2
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+    maven_repo:
+
