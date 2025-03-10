@@ -10,6 +10,8 @@ services:
       - "33501:33501"
     environment:
       - SPRING_PROFILES_ACTIVE=docker # you can add more environment variables here
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
     networks:
       - my-network
     volumes:
@@ -49,11 +51,26 @@ services:
     ports:
       - "33504:33504"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=dockercontainer_name: rules-service
     networks:
       - my-network
     volumes:
       - maven_repo:/root/.m2
+  redis:
+    redis:
+    image: redis:7-alpine
+    container_name: redis-service
+    ports:
+      - "6379:6379"
+    networks:
+      - my-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
 
 networks:
   my-network:
