@@ -24,7 +24,7 @@ public class AddressService implements CompletableService {
 
     public Address getAllAddress(int addressId) {
         logger.info("GETTING ALL ADDRESS");
-        return addressClient.getAddressById(addressId);
+        return addressClient.getAddressById(addressId).orElse(Address.defaultAddress());
     }
 
     @Override

@@ -6,7 +6,7 @@
   <packaging>pom</packaging>  
   <modules>
     <module>workflow-processor</module>
-     <module>workflow</module>
+    <module>workflow</module>
     <module>address</module>
     <module>profile</module>
     <module>occupation</module>

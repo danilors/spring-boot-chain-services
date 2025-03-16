@@ -6,12 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactivefeign.FallbackFactory;
-import reactivefeign.retry.ReactiveRetryPolicy;
 import reactivefeign.spring.config.ReactiveRetryPolicies;
 import reactor.core.publisher.Mono;
-import reactor.util.retry.Retry;
-
-import java.time.Duration;
 
 import static reactivefeign.retry.BasicReactiveRetryPolicy.retry;
 

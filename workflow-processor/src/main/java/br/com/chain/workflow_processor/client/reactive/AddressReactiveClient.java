@@ -10,5 +10,5 @@ import reactor.core.publisher.Mono;
 public interface AddressReactiveClient {
 
     @GetMapping("${address.api.path}")
-    public Mono<Address> getAddressById(@PathVariable("id") Integer id);
+    Mono<Address> getAddressById(@PathVariable("id") Integer id);
 }

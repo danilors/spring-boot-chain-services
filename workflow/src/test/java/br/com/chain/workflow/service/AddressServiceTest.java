@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -40,7 +42,7 @@ class AddressServiceTest {
 
     @Test
     void getAllAddress_Success() {
-        when(addressClient.getAddressById(anyInt())).thenReturn(testAddress);
+        when(addressClient.getAddressById(anyInt())).thenReturn(Optional.of(testAddress));
 
         Address result = addressService.getAllAddress(1);
 
@@ -51,7 +53,7 @@ class AddressServiceTest {
 
     @Test
     void run_Success() {
-        when(addressClient.getAddressById(anyInt())).thenReturn(testAddress);
+        when(addressClient.getAddressById(anyInt())).thenReturn(Optional.of(testAddress));
 
         addressService.run(testProfile, dataWorkflow);
 

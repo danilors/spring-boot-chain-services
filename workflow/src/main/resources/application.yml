@@ -20,3 +20,6 @@ app:
     host: 127.0.0.1
     port: 6379
 
+retry:
+  maxAttempts: 2
+  maxDelay: 100
