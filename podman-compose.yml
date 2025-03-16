@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   profile:
@@ -9,7 +9,7 @@ services:
     ports:
       - "33501:33501"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker # you can add more environment variables here
+      - SPRING_PROFILES_ACTIVE=docker
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
     networks:
@@ -30,6 +30,7 @@ services:
       - my-network
     volumes:
       - maven_repo:/root/.m2
+
   occupation:
     build:
       context: ./occupation
@@ -43,6 +44,7 @@ services:
       - my-network
     volumes:
       - maven_repo:/root/.m2
+
   rules:
     build:
       context: ./rules
@@ -51,31 +53,49 @@ services:
     ports:
       - "33504:33504"
     environment:
-      - SPRING_PROFILES_ACTIVE=dockercontainer_name: rules-service
+      - SPRING_PROFILES_ACTIVE=docker
     networks:
       - my-network
     volumes:
       - maven_repo:/root/.m2
-  redis:
-    redis:
+
+  redis-master-1:
     image: redis:7-alpine
-    container_name: redis-service
+    container_name: redis-master-1
     ports:
-      - "6379:6379"
+      - "7000:6379"
+    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
     networks:
       - my-network
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
+    volumes:
+      - redis_data_master_1:/data
 
+  redis-replica-1:
+    image: redis:7-alpine
+    container_name: redis-replica-1
+    ports:
+      - "7001:6379"
+    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --cluster-announce-ip $(hostname)
+    networks:
+      - my-network
+    volumes:
+      - redis_data_replica_1:/data
+
+  redis-cluster-setup:
+    image: redis:7-alpine
+    container_name: redis-cluster-setup
+    depends_on:
+      - redis-master-1
+      - redis-replica-1
+    command: redis-cli --cluster create redis-master-1:6379 redis-replica-1:6379 --cluster-replicas 1 --cluster-yes
+    networks:
+      - my-network
 
 networks:
   my-network:
     driver: bridge
 
 volumes:
-    maven_repo:
-
+  maven_repo:
+  redis_data_master_1:
+  redis_data_replica_1:
