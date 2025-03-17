@@ -59,37 +59,49 @@ services:
     volumes:
       - maven_repo:/root/.m2
 
-  redis-master-1:
-    image: redis:7-alpine
-    container_name: redis-master-1
+  workflow:
+    build:
+      context: ./workflow
+      dockerfile: Dockerfile
+    container_name: workflow-service
     ports:
-      - "7000:6379"
-    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes
-    networks:
-      - my-network
-    volumes:
-      - redis_data_master_1:/data
-
-  redis-replica-1:
-    image: redis:7-alpine
-    container_name: redis-replica-1
-    ports:
-      - "7001:6379"
-    command: redis-server --cluster-enabled yes --cluster-config-file nodes.conf --cluster-node-timeout 5000 --appendonly yes --cluster-announce-ip $(hostname)
-    networks:
-      - my-network
-    volumes:
-      - redis_data_replica_1:/data
-
-  redis-cluster-setup:
-    image: redis:7-alpine
-    container_name: redis-cluster-setup
+      - "12400:12400"
+    environment:
+      - REDIS_HOST=redis # Set the REDIS_HOST environment variable
+      - REDIS_PORT=6379 # You can also set the port if needed
     depends_on:
-      - redis-master-1
-      - redis-replica-1
-    command: redis-cli --cluster create redis-master-1:6379 redis-replica-1:6379 --cluster-replicas 1 --cluster-yes
+      - redis
+
     networks:
       - my-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  workflow-processor:
+    build:
+      context: ./workflow-processor
+      dockerfile: Dockerfile
+    container_name: workflow-processor-service
+    ports:
+      - "15350:15350"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    networks:
+      - my-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my-network
+    volumes:
+      - redis_data:/data
 
 networks:
   my-network:
@@ -97,5 +109,4 @@ networks:
 
 volumes:
   maven_repo:
-  redis_data_master_1:
-  redis_data_replica_1:
+  redis_data:

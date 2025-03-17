@@ -1,7 +1,16 @@
 server:
   port: 12400
-
 spring:
+  redis:
+    host: ${REDIS_HOST}  # Corrected: Use the service name "redis"
+    port: ${REDIS_PORT}       # Use the correct Redis port
+    # connection-timeout: 2000 #optional - Connection timeout in milliseconds
+    #timeout: 5000 #optional - Command timeout in milliseconds
+    #lettuce:
+    #  pool:
+    #    max-active: 8 #optional - Maximum number of connections
+    #    max-idle: 8   #optional - Maximum number of idle connections
+    #    min-idle: 0   #optional - Minimum number of idle connections
   threads:
     virtual:
       enabled: true
@@ -15,10 +24,6 @@ spring:
             connectTimeout: 5000
             readTimeout: 5000
             loggerLevel: basic
-app:
-  redis:
-    host: 127.0.0.1
-    port: 6379
 
 retry:
   maxAttempts: 2
