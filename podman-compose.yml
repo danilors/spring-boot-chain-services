@@ -101,6 +101,20 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
+      - PROFILE_HOST=profile
+      - PROFILE_PORT=33501
+      - ADDRESS_HOST=address
+      - ADDRESS_PORT=33502
+      - OCCUPATION_HOST=occupation
+      - OCCUPATION_PORT=33503
+      - RULES_HOST=rules
+      - RULES_PORT=33504
+    depends_on:
+      - redis
+      - profile
+      - address
+      - occupation
+      - rules
     networks:
       - app-network
     volumes:
