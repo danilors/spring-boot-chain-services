@@ -26,6 +26,8 @@ public class OccupationCommonService implements CommonService {
 
     @Override
     public Mono<Occupation> getData(Profile profile) {
+        log.info("getting occupation data");
+        log.info("running in thread: {}", Thread.currentThread().getName());
         return occupationClient.getOccupationById(profile.occupationId());
     }
 

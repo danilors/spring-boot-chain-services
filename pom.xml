@@ -3,8 +3,10 @@
   <groupId>your.group.id</groupId>
   <artifactId>parent-project</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>  <modules>
+  <packaging>pom</packaging>  
+  <modules>
     <module>workflow-processor</module>
+    <module>workflow</module>
     <module>address</module>
     <module>profile</module>
     <module>occupation</module>

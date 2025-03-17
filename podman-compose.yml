@@ -1,0 +1,145 @@
+version: "3.8"
+
+services:
+  profile:
+    build:
+      context: ./profile
+      dockerfile: Dockerfile
+    container_name: profile-service
+    ports:
+      - "33501:33501"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    networks:
+      - app-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  address:
+    build:
+      context: ./address
+      dockerfile: Dockerfile
+    container_name: address-service
+    ports:
+      - "33502:33502"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - app-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  occupation:
+    build:
+      context: ./occupation
+      dockerfile: Dockerfile
+    container_name: occupation-service
+    ports:
+      - "33503:33503"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - app-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  rules:
+    build:
+      context: ./rules
+      dockerfile: Dockerfile
+    container_name: rules-service
+    ports:
+      - "33504:33504"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - app-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  workflow:
+    build:
+      context: ./workflow
+      dockerfile: Dockerfile
+    container_name: workflow-service
+    ports:
+      - "12400:12400"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - PROFILE_HOST=profile
+      - PROFILE_PORT=33501
+      - ADDRESS_HOST=address
+      - ADDRESS_PORT=33502
+      - OCCUPATION_HOST=occupation
+      - OCCUPATION_PORT=33503
+      - RULES_HOST=rules
+      - RULES_PORT=33504
+    depends_on:
+      - redis
+      - profile
+      - address
+      - occupation
+      - rules
+
+    networks:
+      - app-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  workflow-processor:
+    build:
+      context: ./workflow-processor
+      dockerfile: Dockerfile
+    container_name: workflow-processor-service
+    ports:
+      - "15350:15350"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - PROFILE_HOST=profile
+      - PROFILE_PORT=33501
+      - ADDRESS_HOST=address
+      - ADDRESS_PORT=33502
+      - OCCUPATION_HOST=occupation
+      - OCCUPATION_PORT=33503
+      - RULES_HOST=rules
+      - RULES_PORT=33504
+    depends_on:
+      - redis
+      - profile
+      - address
+      - occupation
+      - rules
+    networks:
+      - app-network
+    volumes:
+      - maven_repo:/root/.m2
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-service
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    volumes:
+      - redis_data:/data
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  maven_repo:
+  redis_data:

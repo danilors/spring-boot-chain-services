@@ -1,7 +1,19 @@
 server:
   port: 12400
-
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:default}
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST} # Corrected: Use the service name "redis"
+      port: ${SPRING_REDIS_PORT} # Use the correct Redis port
+    # connection-timeout: 2000 #optional - Connection timeout in milliseconds
+    #timeout: 5000 #optional - Command timeout in milliseconds
+    #lettuce:
+    #  pool:
+    #    max-active: 8 #optional - Maximum number of connections
+    #    max-idle: 8   #optional - Maximum number of idle connections
+    #    min-idle: 0   #optional - Minimum number of idle connections
   threads:
     virtual:
       enabled: true
@@ -15,8 +27,11 @@ spring:
             connectTimeout: 5000
             readTimeout: 5000
             loggerLevel: basic
-app:
-  redis:
-    host: 127.0.0.1
-    port: 6379
 
+api:
+  profile:
+    url: "${PROFILE_HOST}:${PROFILE_PORT}"
+  address:
+    url: "${ADDRESS_HOST}:${ADDRESS_PORT}"
+  occupation:
+    url: "${OCCUPATION_HOST}:${OCCUPATION_PORT}"

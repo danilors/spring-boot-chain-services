@@ -21,7 +21,7 @@ public class OccupationService implements CompletableService {
 
     public Occupation getOccupationById(int occupationId) {
         logger.info("GETTING ALL OCCUPATIONS");
-        return occupationsClient.getOccupationId(occupationId);
+        return occupationsClient.getOccupationId(occupationId).orElse(Occupation.defaultOccupation());
     }
 
     @Override
