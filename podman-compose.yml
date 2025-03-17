@@ -13,7 +13,7 @@ services:
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
     networks:
-      - my-network
+      - app-network
     volumes:
       - maven_repo:/root/.m2
 
@@ -27,7 +27,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
-      - my-network
+      - app-network
     volumes:
       - maven_repo:/root/.m2
 
@@ -41,7 +41,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
-      - my-network
+      - app-network
     volumes:
       - maven_repo:/root/.m2
 
@@ -55,7 +55,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
-      - my-network
+      - app-network
     volumes:
       - maven_repo:/root/.m2
 
@@ -67,13 +67,26 @@ services:
     ports:
       - "12400:12400"
     environment:
-      - REDIS_HOST=redis # Set the REDIS_HOST environment variable
-      - REDIS_PORT=6379 # You can also set the port if needed
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - PROFILE_HOST=profile
+      - PROFILE_PORT=33501
+      - ADDRESS_HOST=address
+      - ADDRESS_PORT=33502
+      - OCCUPATION_HOST=occupation
+      - OCCUPATION_PORT=33503
+      - RULES_HOST=rules
+      - RULES_PORT=33504
     depends_on:
       - redis
+      - profile
+      - address
+      - occupation
+      - rules
 
     networks:
-      - my-network
+      - app-network
     volumes:
       - maven_repo:/root/.m2
 
@@ -89,22 +102,28 @@ services:
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
     networks:
-      - my-network
+      - app-network
     volumes:
       - maven_repo:/root/.m2
 
   redis:
     image: redis:7-alpine
-    container_name: redis
+    container_name: redis-service
     ports:
       - "6379:6379"
     networks:
-      - my-network
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     volumes:
       - redis_data:/data
 
 networks:
-  my-network:
+  app-network:
     driver: bridge
 
 volumes:

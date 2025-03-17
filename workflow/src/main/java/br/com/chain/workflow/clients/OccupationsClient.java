@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(value = "occupationsClient", url = "http://localhost:33503")
+@FeignClient(value = "occupationsClient", url = "${api.occupation.url}")
 public interface OccupationsClient {
 
-    @Retryable(retryFor = FeignException.class, maxAttemptsExpression = "${retry.maxAttempts}",
-            backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
+    @Retryable(retryFor = FeignException.class, maxAttempts = 3, backoff = @Backoff(delay = 200))
     @RequestMapping(value = "/api/occupations/{occupationId}", method = RequestMethod.GET)
     Optional<Occupation> getOccupationId(@PathVariable("occupationId") int occupationId);
 }

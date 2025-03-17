@@ -1,9 +1,12 @@
 server:
   port: 12400
 spring:
-  redis:
-    host: ${REDIS_HOST}  # Corrected: Use the service name "redis"
-    port: ${REDIS_PORT}       # Use the correct Redis port
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:default}
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST} # Corrected: Use the service name "redis"
+      port: ${SPRING_REDIS_PORT} # Use the correct Redis port
     # connection-timeout: 2000 #optional - Connection timeout in milliseconds
     #timeout: 5000 #optional - Command timeout in milliseconds
     #lettuce:
@@ -25,6 +28,10 @@ spring:
             readTimeout: 5000
             loggerLevel: basic
 
-retry:
-  maxAttempts: 2
-  maxDelay: 100
+api:
+  profile:
+    url: "${PROFILE_HOST}:${PROFILE_PORT}"
+  address:
+    url: "${ADDRESS_HOST}:${ADDRESS_PORT}"
+  occupation:
+    url: "${OCCUPATION_HOST}:${OCCUPATION_PORT}"
