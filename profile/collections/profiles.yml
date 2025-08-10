@@ -1,0 +1,159 @@
+_type: export
+__export_format: 4
+__export_date: 2023-10-27T10:00:00.000Z
+__export_source: Gemini-Code-Assist
+resources:
+  - _id: wrk_1
+    parentId: null
+    modified: 1672531200000
+    created: 1672531200000
+    name: Spring Boot Chain Services
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: env_1
+    parentId: wrk_1
+    modified: 1672531200000
+    created: 1672531200000
+    name: Base Environment
+    data:
+      baseUrl: http://localhost:8080
+    dataPropertyOrder:
+      "&":
+        - baseUrl
+    color: null
+    isPrivate: false
+    metaSortKey: 1672531200000
+    _type: environment
+  - _id: fld_1
+    parentId: wrk_1
+    modified: 1672531200000
+    created: 1672531200000
+    name: Profiles API
+    description: ""
+    environment: {}
+    metaSortKey: -1672531200000
+    _type: request_group
+  - _id: req_1
+    parentId: fld_1
+    modified: 1672531200000
+    created: 1672531200000
+    url: "{{ _.baseUrl }}/api/profiles"
+    name: Get All Profiles
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -100
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2
+    parentId: fld_1
+    modified: 1672531200000
+    created: 1672531200000
+    url: "{{ _.baseUrl }}/api/profiles/1"
+    name: Get Profile by ID
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -90
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_3
+    parentId: fld_1
+    modified: 1672531200000
+    created: 1672531200000
+    url: "{{ _.baseUrl }}/api/profiles"
+    name: Create Profile
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Jane Doe",
+          "email": "jane.doe@example.com"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1
+    authentication: {}
+    metaSortKey: -80
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4
+    parentId: fld_1
+    modified: 1672531200000
+    created: 1672531200000
+    url: "{{ _.baseUrl }}/api/profiles/1"
+    name: Update Profile
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "Jane Doe Updated",
+        	"email": "jane.doe.updated@example.com"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_1
+    authentication: {}
+    metaSortKey: -70
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5
+    parentId: fld_1
+    modified: 1672531200000
+    created: 1672531200000
+    url: "{{ _.baseUrl }}/api/profiles/1"
+    name: Delete Profile
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -60
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request

@@ -16,7 +16,7 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -25,8 +25,8 @@ public class Profile {
     private String email;
 
     @Column(name = "address", nullable = false)
-    private int addressId;
+    private Long addressId;
 
     @Column(name = "occupation", nullable = false)
-    private int occupationId;
+    private Long occupationId;
 }

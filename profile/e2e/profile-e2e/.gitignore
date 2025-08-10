@@ -1,6 +1,6 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -31,9 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-.mvn
-
-e2e/.idea
-e2e/.mvn
-e2e/target/
-e2e/allure-results/
+allure-results/

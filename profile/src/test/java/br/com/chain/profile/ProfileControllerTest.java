@@ -67,7 +67,7 @@ public class ProfileControllerTest {
         mockMvc.perform(post("/api/profiles")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(profile)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value(someName))
                 .andExpect(jsonPath("$.email").value(someEmail));
@@ -100,7 +100,7 @@ public class ProfileControllerTest {
        var created = createOneProfile(buildProfile(someName, someEmail));
 
         mockMvc.perform(delete("/api/profiles/" + created.getId()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/api/profiles/" + created.getId()))
                 .andExpect(status().isNotFound());
@@ -138,6 +138,8 @@ public class ProfileControllerTest {
         return Profile.builder()
                 .name(name)
                 .email(email)
+                .addressId(1L)
+                .occupationId(1L)
                 .build();
     }
 }
