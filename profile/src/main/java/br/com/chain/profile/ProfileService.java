@@ -17,7 +17,7 @@ public class ProfileService {
         return profileRepository.findAll();
     }
 
-    public Profile getProfileById(int id) {
+    public Profile getProfileById(Long id) {
         return profileRepository.findById(id).orElse(null);
     }
 
@@ -25,7 +25,7 @@ public class ProfileService {
         return profileRepository.save(profile);
     }
 
-    public Profile updateProfile(int id, Profile profile) {
+    public Profile updateProfile(Long id, Profile profile) {
         Profile existingProfile = profileRepository.findById(id).orElse(null);
 
         if (existingProfile != null) {
@@ -36,7 +36,7 @@ public class ProfileService {
         return null;
     }
 
-    public void deleteProfile(int id) {
+    public void deleteProfile(Long id) {
         profileRepository.deleteById(id);
     }
 }

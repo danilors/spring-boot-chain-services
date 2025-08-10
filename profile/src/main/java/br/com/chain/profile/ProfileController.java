@@ -1,6 +1,7 @@
 package br.com.chain.profile;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class ProfileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProfileById(@PathVariable int id) {
+    public ResponseEntity<?> getProfileById(@PathVariable Long id) {
         log.info("[START] getting profile by id {}", id);
       
         var result = profileService.getProfileById(id);
@@ -38,11 +39,13 @@ public class ProfileController {
 
     @PostMapping
     public ResponseEntity<?> createProfile(@RequestBody Profile profile) {
-        return ResponseEntity.ok(profileService.createProfile(profile));
+        return ResponseEntity
+                .status(HttpStatus.CREATED.value())
+                .body(profileService.createProfile(profile));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProfile(@PathVariable int id, @RequestBody Profile profile) {
+    public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody Profile profile) {
 
         var result = profileService.updateProfile(id, profile);
         if (result == null) {
@@ -52,8 +55,8 @@ public class ProfileController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProfile(@PathVariable int id) {
+    public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
         profileService.deleteProfile(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
