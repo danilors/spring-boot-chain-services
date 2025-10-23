@@ -6,7 +6,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import reactivefeign.spring.config.EnableReactiveFeignClients;
 
 @Configuration
 public class MainConfig {
@@ -14,6 +13,4 @@ public class MainConfig {
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
-
-
 }

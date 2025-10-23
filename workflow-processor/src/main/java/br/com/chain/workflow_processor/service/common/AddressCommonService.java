@@ -1,6 +1,6 @@
 package br.com.chain.workflow_processor.service.common;
 
-import br.com.chain.workflow_processor.client.reactive.AddressReactiveClient;
+import br.com.chain.workflow_processor.client.AddressClient;
 import br.com.chain.workflow_processor.enums.ServiceNamesEnum;
 import br.com.chain.workflow_processor.model.Address;
 import br.com.chain.workflow_processor.model.Profile;
@@ -15,19 +15,18 @@ import java.time.Duration;
 public class AddressCommonService implements CommonService {
 
 
-    private final AddressReactiveClient addressReactiveClient;
+    private final AddressClient AddressClient;
 
-    public AddressCommonService(AddressReactiveClient addressReactiveClient) {
-        this.addressReactiveClient = addressReactiveClient;
+    public AddressCommonService(AddressClient AddressClient) {
+        this.AddressClient = AddressClient;
     }
 
     public Mono<Address> getData(Profile profile) {
-        log.info("getting address data");
-        log.info("running in thread: {}", Thread.currentThread().getName());
+
         return  getAddressByIdWithTimeout(profile.addressId());
     }
     public Mono<Address> getAddressByIdWithTimeout(Integer id) {
-        return addressReactiveClient.getAddressById(id)
+        return AddressClient.getAddressById(id)
                 .timeout(Duration.ofSeconds(5)) // Apply a 5-second timeout
                 .onErrorResume(throwable -> {
                     // Log the error and return a default Address
