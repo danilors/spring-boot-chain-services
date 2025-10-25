@@ -1,25 +1,24 @@
-# Stage 1: Build the native application
-FROM ghcr.io/graalvm/native-image-community:22-muslib AS builder
+# Using Oracle GraalVM for JDK 17
+FROM container-registry.oracle.com/graalvm/native-image:21-ol8 AS builder
 
-# Install a recent version of Maven manually
-ARG MAVEN_VERSION=3.9.6
-ARG BASE_URL=https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries
-RUN microdnf install -y curl tar gzip && \
-    curl -fsSL -o /tmp/maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
-    tar -xzf /tmp/maven.tar.gz -C /opt && \
-    rm /tmp/maven.tar.gz
-ENV PATH="/opt/apache-maven-${MAVEN_VERSION}/bin:${PATH}"
+# Install dependencies and set locale
+RUN microdnf install -y gzip glibc-langpack-en && microdnf clean all
+ENV LANG=en_US.UTF-8
 
-# Copy the application source
-WORKDIR /app
-COPY . .
+# Set the working directory to /home/app
+WORKDIR /build
 
-# Build the native executable
-RUN mvn -Pnative -DskipTests clean package
+# Copy the source code into the image for building
+COPY . /build
 
-# Stage 2: Create the final image
-FROM gcr.io/distroless/base-debian11
-WORKDIR /app
-COPY --from=builder /app/target/workflow-processor .
+# Build
+RUN ./mvnw --no-transfer-progress native:compile -Pnative
+
+# The deployment Image
+FROM container-registry.oracle.com/os/oraclelinux:8-slim
+
 EXPOSE 33504
-ENTRYPOINT ["./workflow-processor"]
+
+# Copy the native executable into the containers
+COPY --from=builder /build/target/workflow-processor app
+ENTRYPOINT ["/app"]
