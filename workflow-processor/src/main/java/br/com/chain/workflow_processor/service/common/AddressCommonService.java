@@ -29,8 +29,8 @@ public class AddressCommonService implements CommonService {
         return AddressClient.getAddressById(id)
                 .timeout(Duration.ofSeconds(5)) // Apply a 5-second timeout
                 .onErrorResume(throwable -> {
-                    // Log the error and return a default Address
-                    System.err.println("Error occurred: " + throwable.getMessage());
+                    // Use the structured logger
+                    log.error("Error fetching address for id {}. Returning default. Error: {}", id, throwable.getMessage());
                     return Mono.just(Address.defaulAddres());
                 });
     }
